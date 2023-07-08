@@ -101,7 +101,10 @@ while running:
 
     current_time = pygame.time.get_ticks()  # Get the current time in milliseconds
     WINDOW.blit(ground_image, (0, 0))
-    ground.update(2)  # Update the ground position with a scrolling speed of 2
+
+    if not game_over:
+        ground.update(2)  # Update the ground position with a scrolling speed of 2
+
     WINDOW.blit(ground.image, ground.rect)
     pygame.draw.rect(WINDOW, (255, 255, 255), BORDER, 1)  # Draw the border
     WINDOW.blit(PLAYER, (player_x, player_y))
