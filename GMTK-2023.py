@@ -8,7 +8,7 @@ pygame.font.init()
 WIDTH, HEIGHT = 640, 720
 
 ground_image = pygame.image.load(os.path.join('gmtk-assets', 'ground_image.png'))
-PLAYER = pygame.image.load(os.path.join('imgs', 'bird.png'))
+PLAYER = pygame.image.load(os.path.join('gmtk-assets', 'coin.png'))
 
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("GMTK-2023")
