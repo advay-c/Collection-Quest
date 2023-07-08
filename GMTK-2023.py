@@ -6,8 +6,8 @@ import time
 pygame.font.init()
 
 WIDTH, HEIGHT = 640, 720
-PLAYER_HEIGHT = 115
-PLAYER_WIDTH = 115
+PLAYER_HEIGHT = 140
+PLAYER_WIDTH = 140
 
 ground_image = pygame.image.load(os.path.join('gmtk-assets', 'ground_image.png'))
 PLAYER = pygame.image.load(os.path.join('gmtk-assets', 'coin.png'))
