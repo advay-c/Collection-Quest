@@ -32,7 +32,7 @@ class Ground(pygame.sprite.Sprite):
         self.image.blit(ground_image, (0, ground_height))
 
     def update(self, vel):
-        self.rect.y -= vel  # Increase the scrolling speed
+        self.rect.y -= 2  # Increase the scrolling speed
         if self.rect.y <= -ground_height:
             self.rect.y = 0
 
