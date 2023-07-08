@@ -6,18 +6,18 @@ import time
 pygame.font.init()
 
 WIDTH, HEIGHT = 640, 720
-PLAYER_HEIGHT = 140
-PLAYER_WIDTH = 140
+PLAYER_HEIGHT = 130
+PLAYER_WIDTH = 130
+BORDER = pygame.Rect(0, 0, WIDTH, HEIGHT)
 
 ground_image = pygame.image.load(os.path.join('gmtk-assets', 'ground_image.png'))
 PLAYER = pygame.image.load(os.path.join('gmtk-assets', 'coin.png'))
-PLAYER = pygame.transform.scale(PLAYER, (PLAYER_WIDTH, PLAYER_HEIGHT))
+PLAYER = pygame.transform.scale(PLAYER, (PLAYER_HEIGHT, PLAYER_WIDTH))
 
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("GMTK-2023")
 
 ground_height = ground_image.get_height()
-player_height = PLAYER.get_height()
 
 class Ground(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -36,8 +36,9 @@ class Ground(pygame.sprite.Sprite):
 
 ground = Ground(0, 0)
 
-player_x = WIDTH // 2 - PLAYER.get_width() // 2
-player_y = HEIGHT // 2 - player_height // 2
+player_x = 250
+player_y = 500
+gravity = 2
 
 running = True
 clock = pygame.time.Clock()
@@ -51,16 +52,36 @@ while running:
     keys_pressed = pygame.key.get_pressed()
 
     if keys_pressed[pygame.K_a] or keys_pressed[pygame.K_LEFT]:
-        player_x 
+        player_x -= 7  # Move the player position to the left
+
     if keys_pressed[pygame.K_d] or keys_pressed[pygame.K_RIGHT]:
-        player_x 
+        player_x += 10  # Move the player position to the right
+
+    if keys_pressed[pygame.K_w] or keys_pressed[pygame.K_UP]:
+        player_y -= 7
+
+    player_y += gravity  # Apply constant downward displacement to the player's vertical position
+
+    # Check if the player has touched the ground and reset the vertical position
+    if player_y >= HEIGHT - PLAYER_HEIGHT:
+        player_y = HEIGHT - PLAYER_HEIGHT
+
+    # Check for collision with the border
+    if player_x < BORDER.left:
+        player_x = BORDER.left
+    elif player_x > BORDER.right - PLAYER_WIDTH:
+        player_x = BORDER.right - PLAYER_WIDTH
+    if player_y < BORDER.top:
+        player_y = BORDER.top
+    elif player_y > BORDER.bottom - PLAYER_HEIGHT:
+        player_y = BORDER.bottom - PLAYER_HEIGHT
 
     current_time = pygame.time.get_ticks()  # Get the current time in milliseconds
     WINDOW.blit(ground_image, (0, 0))
     ground.update(2)  # Update the ground position with a scrolling speed of 2
     WINDOW.blit(ground.image, ground.rect)
-    WINDOW.blit(PLAYER, (250, 400))
-
+    pygame.draw.rect(WINDOW, (255, 255, 255), BORDER, 1)  # Draw the border
+    WINDOW.blit(PLAYER, (player_x, player_y))
 
     pygame.display.update()
 
