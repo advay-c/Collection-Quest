@@ -8,9 +8,8 @@ pygame.font.init()
 WIDTH, HEIGHT = 640, 720
 GRAVITY = 0.01
 
-START = pygame.image.load(os.path.join('gmtk-assets', 'START.png'))  # load images
 ground_image = pygame.image.load(os.path.join('gmtk-assets', 'ground_image.png'))
-PLAYER = pygame.image.load(os.path.join('imgs', 'bird.png')) #temporary 
+PLAYER = pygame.image.load(os.path.join('imgs', 'bird.png'))
 
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("GMTK-2023")
@@ -45,10 +44,9 @@ def gravity():
 
 running = True
 clock = pygame.time.Clock()
-start_time = pygame.time.get_ticks()  # Get the initial time in milliseconds
 
 while running:
-    clock.tick(60)
+    clock.tick(80)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -65,15 +63,13 @@ while running:
         player_x += player_vel
 
     current_time = pygame.time.get_ticks()  # Get the current time in milliseconds
-    if current_time - start_time <= 3333:  # Display START image for the first two seconds
-        WINDOW.blit(START, (0, 0))
-    else:  # Switch to ground_image after two seconds
-        WINDOW.blit(ground_image, (0, 0))
-        gravity()  # Apply gravity to the player
-        WINDOW.blit(PLAYER, (player_x, player_y))
-        ground.update(2)  # Update the ground position with a scrolling speed of 2
-        WINDOW.blit(ground.image, ground.rect)
+    WINDOW.blit(ground_image, (0, 0))
+    gravity()  # Apply gravity to the player
+    WINDOW.blit(PLAYER, (player_x, player_y))
+    ground.update(2)  # Update the ground position with a scrolling speed of 2
+    WINDOW.blit(ground.image, ground.rect)
 
     pygame.display.update()
 
 pygame.quit()
+
