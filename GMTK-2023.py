@@ -13,6 +13,7 @@ BORDER = pygame.Rect(0, 0, WIDTH, HEIGHT)
 ground_image = pygame.image.load(os.path.join('gmtk-assets', 'ground_image.png'))
 PLAYER = pygame.image.load(os.path.join('gmtk-assets', 'coin.png'))
 PLAYER = pygame.transform.scale(PLAYER, (PLAYER_HEIGHT, PLAYER_WIDTH))
+game_over_text = pygame.image.load(os.path.join('imgs', 'gameover.png'))
 
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("GMTK-2023")
@@ -52,10 +53,10 @@ while running:
     keys_pressed = pygame.key.get_pressed()
 
     if keys_pressed[pygame.K_a] or keys_pressed[pygame.K_LEFT]:
-        player_x -= 7  # Move the player position to the left
+        player_x -= 5  # Move the player position to the left
 
     if keys_pressed[pygame.K_d] or keys_pressed[pygame.K_RIGHT]:
-        player_x += 10  # Move the player position to the right
+        player_x += 5  # Move the player position to the right
 
     if keys_pressed[pygame.K_w] or keys_pressed[pygame.K_UP]:
         player_y -= 7
@@ -75,6 +76,9 @@ while running:
         player_y = BORDER.top
     elif player_y > BORDER.bottom - PLAYER_HEIGHT:
         player_y = BORDER.bottom - PLAYER_HEIGHT
+
+        if player_y >= BORDER:
+            WINDOW.blit(game_over_text, (200, 255))
 
     current_time = pygame.time.get_ticks()  # Get the current time in milliseconds
     WINDOW.blit(ground_image, (0, 0))
