@@ -6,9 +6,12 @@ import time
 pygame.font.init()
 
 WIDTH, HEIGHT = 640, 720
+PLAYER_HEIGHT = 115
+PLAYER_WIDTH = 115
 
 ground_image = pygame.image.load(os.path.join('gmtk-assets', 'ground_image.png'))
 PLAYER = pygame.image.load(os.path.join('gmtk-assets', 'coin.png'))
+PLAYER = pygame.transform.scale(PLAYER, (PLAYER_WIDTH, PLAYER_HEIGHT))
 
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("GMTK-2023")
@@ -54,9 +57,10 @@ while running:
 
     current_time = pygame.time.get_ticks()  # Get the current time in milliseconds
     WINDOW.blit(ground_image, (0, 0))
-    WINDOW.blit(PLAYER, (0, 0))
     ground.update(2)  # Update the ground position with a scrolling speed of 2
     WINDOW.blit(ground.image, ground.rect)
+    WINDOW.blit(PLAYER, (250, 400))
+
 
     pygame.display.update()
 
