@@ -13,7 +13,8 @@ SCORE = 0
 
 ground_image = pygame.image.load(os.path.join('gmtk-assets', 'ground_image.png'))
 PLAYER = pygame.image.load(os.path.join('gmtk-assets', 'coin.png'))
-PLAYER = pygame.transform.scale(PLAYER, (PLAYER_HEIGHT, PLAYER_WIDTH))
+PLAYER = pygame.transform.scale(PLAYER, (PLAYER_WIDTH, PLAYER_HEIGHT))
+CAR = pygame.image.load(os.path.join('gmtk-assets', 'car.png'))
 game_over_text = pygame.image.load(os.path.join('gmtk-assets', 'gameover.png'))
 game_over_text = pygame.transform.scale(game_over_text, (384, 144))
 
@@ -35,7 +36,7 @@ class Ground(pygame.sprite.Sprite):
         self.image.blit(ground_image, (0, ground_height))
 
     def update(self, vel):
-        self.rect.y -= 2  #Control the scrolling speed
+        self.rect.y -= vel  # Control the scrolling speed
         if self.rect.y <= -ground_height:
             self.rect.y = 0
 
@@ -53,8 +54,21 @@ class Button():
     def draw(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
+class Car(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.transform.scale(CAR, (PLAYER_WIDTH, PLAYER_HEIGHT))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def update(self, vel):
+        self.rect.y += vel  # Control the car's vertical movement
+        if self.rect.y >= HEIGHT:
+            self.kill()  # Remove the car sprite if it goes beyond the window
+
 def display_score():
-    font = pygame.font.Font(os.path.join('imgs', 'font.otf'), 55)
+    font = pygame.font.Font(os.path.join('gmtk-assets', 'font.otf'), 55)
     text = font.render(str(SCORE), True, (0, 0, 0))
     WINDOW.blit(text, (295, 90))
 
@@ -64,6 +78,8 @@ player_x = 250
 player_y = 250
 gravity = 2
 game_over = False
+
+cars = pygame.sprite.Group()  # Group to store the car sprites
 
 running = True
 clock = pygame.time.Clock()
@@ -125,6 +141,17 @@ while running:
             game_over = False
             player_x = 250
             player_y = 250
+
+    # Generate cars at random positions
+    if random.randint(1, 125) == 4:  # Adjust the number to control the car spawn rate
+        x_positions = [25, 255, 475]
+        x = random.choice(x_positions)
+        y = random.randint(-PLAYER_HEIGHT, 0)
+        car = Car(x, y)
+        cars.add(car)
+
+    cars.update(5)  # Control the car's vertical movement speed
+    cars.draw(WINDOW)  # Draw the car sprites
 
     pygame.display.update()
 
