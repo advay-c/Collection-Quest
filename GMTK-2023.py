@@ -150,6 +150,9 @@ while running:
             player_x = 250
             player_y = 250
             SCORE = 0
+            gravity = 2
+
+
             cars.empty()  # Clear the cars group
 
             # Resume movement of cars
@@ -168,18 +171,30 @@ while running:
 
     # Generate cars at random positions if game is not over
     if not game_over:
-        if random.randint(1, 125) == 3:  # Adjust the number to control the car spawn rate
+        if random.randint(1, 100) == 3:  # Adjust the number to control the car spawn rate
             x_positions = [25, 255, 475]
             x = random.choice(x_positions)
             y = random.randint(-PLAYER_HEIGHT, 0)
             car = Car(x, y)
             cars.add(car)
+
+    if SCORE > 10:
+        if random.randint(1, 55) == 3:
+            ground.update(6)
+            cars.update(8)
+            gravity = 3
+
+    if SCORE > 25:
+        if random.randint(1, 22) == 3:
+            ground.update(8)
+            cars.update(12)
+            gravity = 4
             
 
-    # Pause movement of cars
-    if game_over:
-        for car in cars:
-            car.paused = True
+# Pause movement of cars
+            if game_over:
+                for car in cars:
+                    car.paused = True
 
     if SCORE < 0:
         game_over = True
@@ -191,3 +206,4 @@ while running:
     pygame.display.update()
 
 pygame.quit()
+
