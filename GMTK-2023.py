@@ -1,7 +1,6 @@
 import pygame
 import random
 import os
-import time
 
 pygame.font.init()
 
@@ -68,7 +67,7 @@ class Car(pygame.sprite.Sprite):
             self.kill()  # Remove the car sprite if it goes beyond the window
 
 def display_score():
-    font = pygame.font.Font(os.path.join('gmtk-assets', 'font.otf'), 55)
+    font = pygame.font.Font(None, 55)
     text = font.render(str(SCORE), True, (0, 0, 0))
     WINDOW.blit(text, (295, 90))
 
@@ -141,18 +140,33 @@ while running:
             game_over = False
             player_x = 250
             player_y = 250
+            SCORE = 0
+            cars.empty()  # Clear the cars group
+
+    # Check for collision between player and cars
+    for car in cars:
+        if car.rect.colliderect(pygame.Rect(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT)):
+            game_over = True
+            break
 
     # Generate cars at random positions
-    if random.randint(1, 125) == 4:  # Adjust the number to control the car spawn rate
+    if random.randint(1, 125) == 3:  # Adjust the number to control the car spawn rate
         x_positions = [25, 255, 475]
         x = random.choice(x_positions)
         y = random.randint(-PLAYER_HEIGHT, 0)
         car = Car(x, y)
         cars.add(car)
 
-    cars.update(5)  # Control the car's vertical movement speed
+    cars.update(4)  # Control the car's vertical movement speed
     cars.draw(WINDOW)  # Draw the car sprites
 
+    # Increase score when player collides with a car
+    for car in cars:
+        if car.rect.colliderect(pygame.Rect(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT)):
+            SCORE += 1
+            car.kill()
+
+    display_score()
     pygame.display.update()
 
 pygame.quit()
