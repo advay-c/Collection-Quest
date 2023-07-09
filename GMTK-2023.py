@@ -8,7 +8,6 @@ WIDTH, HEIGHT = 640, 720
 PLAYER_HEIGHT = 130
 PLAYER_WIDTH = 130
 BORDER = pygame.Rect(0, 0, WIDTH, HEIGHT)
-SCORE = 0
 
 ground_image = pygame.image.load(os.path.join('gmtk-assets', 'ground_image.png'))
 SCORE_B = pygame.image.load(os.path.join('gmtk-assets', 'score_boarder.png'))
@@ -57,7 +56,7 @@ class Button():
 class Car(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.transform.scale(CAR, (PLAYER_WIDTH, PLAYER_HEIGHT))
+        self.image = (pygame.transform.scale(CAR, (117.5, 212.5)))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -72,10 +71,10 @@ class Car(pygame.sprite.Sprite):
                 self.kill()  # Remove the car sprite if it goes beyond the window
 
 def display_score():
-    font = pygame.font.Font(os.path.join('gmtk-assets', 'font.otf'), 55)
+    font = pygame.font.Font(os.path.join('gmtk-assets', 'font.ttf'), 55)
     text = font.render(str(SCORE), True, (0, 0, 0))
     WINDOW.blit(SCORE_B, (265, 85))
-    WINDOW.blit(text, (310, 90))
+    WINDOW.blit(text, (300, 85))
 
 
 button = Button(WIDTH // 2 - 57, HEIGHT // 2 - 35, restart)
@@ -90,7 +89,6 @@ cars = pygame.sprite.Group()  # Group to store the car sprites
 running = True
 clock = pygame.time.Clock()
 
-# Initialize SCORE here
 SCORE = 0
 
 while running:
@@ -171,7 +169,7 @@ while running:
 
     # Generate cars at random positions if game is not over
     if not game_over:
-        if random.randint(1, 75) == 3:  # Adjust the number to control the car spawn rate
+        if random.randint(1, 100) == 3:  # Adjust the number to control the car spawn rate
             x_positions = [25, 255, 475]
             x = random.choice(x_positions)
             y = random.randint(-PLAYER_HEIGHT, 0)
@@ -179,7 +177,7 @@ while running:
             cars.add(car)
 
     if SCORE > 10:
-        if random.randint(1, 45) == 3:
+        if random.randint(1, 65) == 3:
             x_positions = [25, 255, 475]
             x = random.choice(x_positions)
             y = random.randint(-PLAYER_HEIGHT, 0)
@@ -193,7 +191,7 @@ while running:
 
 
     if SCORE > 25:
-        if random.randint(1, 22) == 3:
+        if random.randint(1, 45) == 3:
             x_positions = [25, 255, 475]
             x = random.choice(x_positions)
             y = random.randint(-PLAYER_HEIGHT, 0)
@@ -207,7 +205,7 @@ while running:
             
 
     if SCORE > 50:
-        if random.randint (1, 10) == 3:
+        if random.randint (1, 20) == 3:
             x_positions = [25, 255, 475]
             x = random.choice(x_positions)
             y = random.randint(-PLAYER_HEIGHT, 0)
