@@ -9,11 +9,14 @@ WIDTH, HEIGHT = 640, 720
 PLAYER_HEIGHT = 130
 PLAYER_WIDTH = 130
 BORDER = pygame.Rect(0, 0, WIDTH, HEIGHT)
+SCORE = 0
 
 ground_image = pygame.image.load(os.path.join('gmtk-assets', 'ground_image.png'))
 PLAYER = pygame.image.load(os.path.join('gmtk-assets', 'coin.png'))
 PLAYER = pygame.transform.scale(PLAYER, (PLAYER_HEIGHT, PLAYER_WIDTH))
 game_over_text = pygame.image.load(os.path.join('gmtk-assets', 'gameover.png'))
+game_over_text = pygame.transform.scale(game_over_text, (384, 144))
+
 restart = pygame.image.load(os.path.join('gmtk-assets', 'restart.png'))
 
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -32,7 +35,7 @@ class Ground(pygame.sprite.Sprite):
         self.image.blit(ground_image, (0, ground_height))
 
     def update(self, vel):
-        self.rect.y -= 2  # Increase the scrolling speed
+        self.rect.y -= 2  #Control the scrolling speed
         if self.rect.y <= -ground_height:
             self.rect.y = 0
 
@@ -50,7 +53,12 @@ class Button():
     def draw(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
-button = Button(WIDTH // 2 - 65, HEIGHT // 2 - 15, restart)
+def display_score():
+    font = pygame.font.Font(os.path.join('imgs', 'font.otf'), 55)
+    text = font.render(str(SCORE), True, (0, 0, 0))
+    WINDOW.blit(text, (295, 90))
+
+button = Button(WIDTH // 2 - 57, HEIGHT // 2 - 35, restart)
 
 player_x = 250
 player_y = 250
@@ -110,7 +118,7 @@ while running:
     WINDOW.blit(PLAYER, (player_x, player_y))
 
     if game_over:
-        WINDOW.blit(game_over_text, (200, 200))
+        WINDOW.blit(game_over_text, (120, 200))
         button.draw(WINDOW)
 
         if button.is_clicked():
