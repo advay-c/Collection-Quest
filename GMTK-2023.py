@@ -148,7 +148,11 @@ while running:
         player_rect = pygame.Rect(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT)
         for car in cars:
             if car.rect.colliderect(player_rect):
-                game_over = True
+                if car.rect.centery < player_rect.centery:
+                    SCORE += 1
+                else:
+                    game_over = True
+                car.kill()
                 break
 
     # Generate cars at random positions
@@ -161,12 +165,6 @@ while running:
 
     cars.update(4)  # Control the car's vertical movement speed
     cars.draw(WINDOW)  # Draw the car sprites
-
-    # Increase score when player collides with a car
-    for car in cars:
-        if car.rect.colliderect(pygame.Rect(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT)):
-            SCORE += 1
-            car.kill()
 
     display_score()
     pygame.display.update()
