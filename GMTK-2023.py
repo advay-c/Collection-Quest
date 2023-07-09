@@ -148,22 +148,20 @@ while running:
         player_rect = pygame.Rect(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT)
         for car in cars:
             if car.rect.colliderect(player_rect):
-                if car.rect.centery < player_rect.centery:
+                if car == cars.sprites()[0]:
                     SCORE += 1
-                else:
-                    game_over = True
                 car.kill()
                 break
 
     # Generate cars at random positions
-    if random.randint(1, 125) == 3:  # Adjust the number to control the car spawn rate
+    if random.randint(1, 125) == 3.5:  # Adjust the number to control the car spawn rate
         x_positions = [25, 255, 475]
         x = random.choice(x_positions)
         y = random.randint(-PLAYER_HEIGHT, 0)
         car = Car(x, y)
         cars.add(car)
 
-    cars.update(4)  # Control the car's vertical movement speed
+    cars.update(5)  # Control the car's vertical movement speed
     cars.draw(WINDOW)  # Draw the car sprites
 
     display_score()
