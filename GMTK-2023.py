@@ -116,6 +116,8 @@ while running:
     keys_pressed = pygame.key.get_pressed()
 
     if current_screen == 4:
+        pygame.mixer.Sound.stop(SOUND_3)
+        pygame.mixer.Sound.play(SOUND_2)
         if not game_over:
             if keys_pressed[pygame.K_a] or keys_pressed[pygame.K_LEFT]:
                 player_x -= 5  # Move the player position to the left
@@ -158,8 +160,8 @@ while running:
 
         if game_over:
             WINDOW.blit(game_over_text, (120, 200))
+            pygame.mixer.Sound.stop(SOUND_2)
             pygame.mixer.Sound.play(SOUND_3)
-            pygame.mixer.music.stop()
             button.draw(WINDOW)
 
             if button.is_clicked():
@@ -250,8 +252,6 @@ while running:
 
     elif current_screen == 3:
         WINDOW.blit(SCREEN_3, (0, 0))
-        pygame.mixer.Sound.stop(SOUND_3)
-        pygame.mixer.Sound.play(SOUND_2)
         pygame.display.update()
 
     elif current_screen == 2:
@@ -263,4 +263,3 @@ while running:
         pygame.display.update()
 
 pygame.quit()
-
