@@ -144,10 +144,12 @@ while running:
             cars.empty()  # Clear the cars group
 
     # Check for collision between player and cars
-    for car in cars:
-        if car.rect.colliderect(pygame.Rect(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT)):
-            game_over = True
-            break
+    if not game_over:
+        player_rect = pygame.Rect(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT)
+        for car in cars:
+            if car.rect.colliderect(player_rect):
+                game_over = True
+                break
 
     # Generate cars at random positions
     if random.randint(1, 125) == 3:  # Adjust the number to control the car spawn rate
