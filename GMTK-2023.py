@@ -171,7 +171,7 @@ while running:
 
     # Generate cars at random positions if game is not over
     if not game_over:
-        if random.randint(1, 100) == 3:  # Adjust the number to control the car spawn rate
+        if random.randint(1, 75) == 3:  # Adjust the number to control the car spawn rate
             x_positions = [25, 255, 475]
             x = random.choice(x_positions)
             y = random.randint(-PLAYER_HEIGHT, 0)
@@ -179,16 +179,44 @@ while running:
             cars.add(car)
 
     if SCORE > 10:
-        if random.randint(1, 55) == 3:
+        if random.randint(1, 45) == 3:
+            x_positions = [25, 255, 475]
+            x = random.choice(x_positions)
+            y = random.randint(-PLAYER_HEIGHT, 0)
+            car = Car(x, y)
+            cars.add(car)
             ground.update(6)
             cars.update(8)
             gravity = 3
+        if car.rect.y >= HEIGHT and SCORE > 10:
+            SCORE -= 2  # Deduct 2 points from the score
+
 
     if SCORE > 25:
         if random.randint(1, 22) == 3:
-            ground.update(8)
+            x_positions = [25, 255, 475]
+            x = random.choice(x_positions)
+            y = random.randint(-PLAYER_HEIGHT, 0)
+            car = Car(x, y)
+            cars.add(car)
+            ground.update(7)
             cars.update(12)
             gravity = 4
+            if car.rect.y >= HEIGHT and SCORE > 10:
+                SCORE -= 3  # Deduct 2 points from the score
+            
+
+    if SCORE > 50:
+        if random.randint (1, 10) == 3:
+            x_positions = [25, 255, 475]
+            x = random.choice(x_positions)
+            y = random.randint(-PLAYER_HEIGHT, 0)
+            car = Car(x, y)
+            ground.update(7)
+            cars.update(15)
+            gravity = 4.5
+            if car.rect.y >= HEIGHT and SCORE > 10:
+                SCORE -= 5  # Deduct 2 points from the score
             
 
 # Pause movement of cars
@@ -206,4 +234,3 @@ while running:
     pygame.display.update()
 
 pygame.quit()
-
