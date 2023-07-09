@@ -166,13 +166,15 @@ while running:
                 car.kill()
                 break
 
-    # Generate cars at random positions
-    if random.randint(1, 125) == 3:  # Adjust the number to control the car spawn rate
-        x_positions = [25, 255, 475]
-        x = random.choice(x_positions)
-        y = random.randint(-PLAYER_HEIGHT, 0)
-        car = Car(x, y)
-        cars.add(car)
+    # Generate cars at random positions if game is not over
+    if not game_over:
+        if random.randint(1, 125) == 3:  # Adjust the number to control the car spawn rate
+            x_positions = [25, 255, 475]
+            x = random.choice(x_positions)
+            y = random.randint(-PLAYER_HEIGHT, 0)
+            car = Car(x, y)
+            cars.add(car)
+            
 
     # Pause movement of cars
     if game_over:
