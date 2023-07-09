@@ -3,6 +3,7 @@ import random
 import os
 
 pygame.font.init()
+pygame.mixer.init()
 
 WIDTH, HEIGHT = 640, 720
 PLAYER_HEIGHT = 130
@@ -16,14 +17,17 @@ PLAYER = pygame.transform.scale(PLAYER, (PLAYER_WIDTH, PLAYER_HEIGHT))
 CAR = pygame.image.load(os.path.join('gmtk-assets', 'car.png'))
 SCREEN_1 = pygame.image.load(os.path.join('gmtk-assets', 'Screen_1.png'))
 SCREEN_2 = pygame.image.load(os.path.join('gmtk-assets', 'Screen_2.png'))
-SCREEN_3 = pygame.image.load(os.path.join('gmtk-assets', 'CLICK.png'))
+SCREEN_3 = pygame.image.load(os.path.join('gmtk-assets', 'Screen_3.png'))
+SOUND_3 = pygame.mixer.Sound(os.path.join("gmtk-assets", "game_over.wav"))
+SOUND_2 = pygame.mixer.Sound(os.path.join("gmtk-assets", "Le Grand Chase.wav"))
+SOUND_1 = pygame.mixer.Sound(os.path.join("gmtk-assets", "coin.wav"))
 game_over_text = pygame.image.load(os.path.join('gmtk-assets', 'gameover.png'))
 game_over_text = pygame.transform.scale(game_over_text, (384, 144))
 
 restart = pygame.image.load(os.path.join('gmtk-assets', 'restart.png'))
 
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("GMTK-2023")
+pygame.display.set_caption("Collection Quest")
 
 ground_height = ground_image.get_height()
 
@@ -154,6 +158,8 @@ while running:
 
         if game_over:
             WINDOW.blit(game_over_text, (120, 200))
+            pygame.mixer.Sound.play(SOUND_3)
+            pygame.mixer.music.stop()
             button.draw(WINDOW)
 
             if button.is_clicked():
@@ -176,6 +182,8 @@ while running:
                 if car.rect.colliderect(player_rect):
                     if car == cars.sprites()[0]:
                         SCORE += 1
+                        pygame.mixer.Sound.play(SOUND_1)
+                        pygame.mixer.music.stop()
                     car.kill()
                     break
 
@@ -212,7 +220,7 @@ while running:
                 cars.update(12)
                 gravity = 4
                 if car.rect.y >= HEIGHT and SCORE > 10:
-                    SCORE -= 3  # Deduct 2 points from the score
+                    SCORE -= 3  # Deduct 3 points from the score
 
         if SCORE > 50:
             if random.randint(1, 20) == 3:
@@ -224,7 +232,7 @@ while running:
                 cars.update(15)
                 gravity = 4.5
                 if car.rect.y >= HEIGHT and SCORE > 10:
-                    SCORE -= 5  # Deduct 2 points from the score
+                    SCORE -= 10  # Deduct 10 points from the score
 
                 # Pause movement of cars
                 if game_over:
@@ -242,6 +250,8 @@ while running:
 
     elif current_screen == 3:
         WINDOW.blit(SCREEN_3, (0, 0))
+        pygame.mixer.Sound.stop(SOUND_3)
+        pygame.mixer.Sound.play(SOUND_2)
         pygame.display.update()
 
     elif current_screen == 2:
@@ -253,3 +263,4 @@ while running:
         pygame.display.update()
 
 pygame.quit()
+
