@@ -11,6 +11,7 @@ BORDER = pygame.Rect(0, 0, WIDTH, HEIGHT)
 SCORE = 0
 
 ground_image = pygame.image.load(os.path.join('gmtk-assets', 'ground_image.png'))
+SCORE_B = pygame.image.load(os.path.join('gmtk-assets', 'score_boarder.png'))
 PLAYER = pygame.image.load(os.path.join('gmtk-assets', 'coin.png'))
 PLAYER = pygame.transform.scale(PLAYER, (PLAYER_WIDTH, PLAYER_HEIGHT))
 CAR = pygame.image.load(os.path.join('gmtk-assets', 'car.png'))
@@ -60,17 +61,22 @@ class Car(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.paused = False  # Added a paused flag
 
     def update(self, vel):
-        self.rect.y += vel  # Control the car's vertical movement
-        if self.rect.y >= HEIGHT:
-            SCORE -= 1  # Decrease the score by one when the car goes off the screen
-            self.kill()  # Remove the car sprite if it goes beyond the window
+        if not self.paused:  # Only update the position if not paused
+            self.rect.y += vel  # Control the car's vertical movement
+            if self.rect.y >= HEIGHT:
+                global SCORE  # Declare SCORE as a global variable
+                SCORE -= 1  # Decrease the score by one when the car goes off the screen
+                self.kill()  # Remove the car sprite if it goes beyond the window
 
 def display_score():
     font = pygame.font.Font(os.path.join('gmtk-assets', 'font.otf'), 55)
-    text = font.render(str(SCORE), True, (255, 0, 255))
-    WINDOW.blit(text, (295, 90))
+    text = font.render(str(SCORE), True, (0, 0, 0))
+    WINDOW.blit(SCORE_B, (265, 85))
+    WINDOW.blit(text, (310, 90))
+
 
 button = Button(WIDTH // 2 - 57, HEIGHT // 2 - 35, restart)
 
@@ -83,6 +89,9 @@ cars = pygame.sprite.Group()  # Group to store the car sprites
 
 running = True
 clock = pygame.time.Clock()
+
+# Initialize SCORE here
+SCORE = 0
 
 while running:
     clock.tick(80)
@@ -143,6 +152,10 @@ while running:
             SCORE = 0
             cars.empty()  # Clear the cars group
 
+            # Resume movement of cars
+            for car in cars:
+                car.paused = False
+
     # Check for collision between player and cars
     if not game_over:
         player_rect = pygame.Rect(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT)
@@ -160,6 +173,14 @@ while running:
         y = random.randint(-PLAYER_HEIGHT, 0)
         car = Car(x, y)
         cars.add(car)
+
+    # Pause movement of cars
+    if game_over:
+        for car in cars:
+            car.paused = True
+
+    if SCORE < 0:
+        game_over = True
 
     cars.update(4)  # Control the car's vertical movement speed
     cars.draw(WINDOW)  # Draw the car sprites
