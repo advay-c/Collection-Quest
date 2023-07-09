@@ -64,11 +64,12 @@ class Car(pygame.sprite.Sprite):
     def update(self, vel):
         self.rect.y += vel  # Control the car's vertical movement
         if self.rect.y >= HEIGHT:
+            SCORE -= 1  # Decrease the score by one when the car goes off the screen
             self.kill()  # Remove the car sprite if it goes beyond the window
 
 def display_score():
-    font = pygame.font.Font(None, 55)
-    text = font.render(str(SCORE), True, (0, 0, 0))
+    font = pygame.font.Font(os.path.join('gmtk-assets', 'font.otf'), 55)
+    text = font.render(str(SCORE), True, (255, 0, 255))
     WINDOW.blit(text, (295, 90))
 
 button = Button(WIDTH // 2 - 57, HEIGHT // 2 - 35, restart)
@@ -122,7 +123,6 @@ while running:
             player_y = BORDER.bottom - PLAYER_HEIGHT
             game_over = True
 
-    current_time = pygame.time.get_ticks()  # Get the current time in milliseconds
     WINDOW.blit(ground_image, (0, 0))
 
     if not game_over:
@@ -154,14 +154,14 @@ while running:
                 break
 
     # Generate cars at random positions
-    if random.randint(1, 125) == 3.5:  # Adjust the number to control the car spawn rate
+    if random.randint(1, 125) == 3:  # Adjust the number to control the car spawn rate
         x_positions = [25, 255, 475]
         x = random.choice(x_positions)
         y = random.randint(-PLAYER_HEIGHT, 0)
         car = Car(x, y)
         cars.add(car)
 
-    cars.update(5)  # Control the car's vertical movement speed
+    cars.update(4)  # Control the car's vertical movement speed
     cars.draw(WINDOW)  # Draw the car sprites
 
     display_score()
