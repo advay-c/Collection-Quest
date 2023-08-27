@@ -1,5 +1,5 @@
 # GMTK-2023
-GMTK-2023 Game Jam submission for the theme 'Roles Reversed' - Collection Quest
+GMTK-2023 Game Jam submission following the theme 'Roles Reversed' - Collection Quest
 
 You are the coin, your objective is to collect every car and get the highest score possible! If you let a car go off the screen without collecting it, you loose points.
 
