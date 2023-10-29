@@ -170,10 +170,6 @@ while running:
 
                 cars.empty()  # Clear the cars group
 
-                # Resume movement of cars
-                for car in cars:
-                    car.paused = False
-
         # Check for collision between player and cars
         if not game_over:
             player_rect = pygame.Rect(player_x, player_y, PLAYER_WIDTH, PLAYER_HEIGHT)
