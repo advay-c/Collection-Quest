@@ -19,7 +19,6 @@ SCREEN_1 = pygame.image.load(os.path.join('gmtk-assets', 'Screen_1.png'))
 SCREEN_2 = pygame.image.load(os.path.join('gmtk-assets', 'Screen_2.png'))
 SCREEN_3 = pygame.image.load(os.path.join('gmtk-assets', 'Screen_3.png'))
 SOUND_3 = pygame.mixer.Sound(os.path.join("gmtk-assets", "game_over.wav"))
-SOUND_2 = pygame.mixer.Sound(os.path.join("gmtk-assets", "Le Grand Chase.wav"))
 SOUND_1 = pygame.mixer.Sound(os.path.join("gmtk-assets", "coin.wav"))
 game_over_text = pygame.image.load(os.path.join('gmtk-assets', 'gameover.png'))
 game_over_text = pygame.transform.scale(game_over_text, (384, 144))
@@ -117,7 +116,6 @@ while running:
 
     if current_screen == 4:
         pygame.mixer.Sound.stop(SOUND_3)
-        pygame.mixer.Sound.play(SOUND_2)
         if not game_over:
             if keys_pressed[pygame.K_a] or keys_pressed[pygame.K_LEFT]:
                 player_x -= 5  # Move the player position to the left
@@ -160,7 +158,6 @@ while running:
 
         if game_over:
             WINDOW.blit(game_over_text, (120, 200))
-            pygame.mixer.Sound.stop(SOUND_2)
             pygame.mixer.Sound.play(SOUND_3)
             button.draw(WINDOW)
 
